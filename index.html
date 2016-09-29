@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Obi Plabon">
+
+    <title>iStyler by Obi Plabon</title>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/color-default.css">
+
+    <link rel="stylesheet" href="dist/iStyler.css">
+</head>
+<body>
+    <div class="Container">
+        <h1>Color Switcher</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor <a href="#">incididunt</a> ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation <a href="#">ullamco</a> laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        <a class="Button" href="#">Button</a>
+
+        <div style="height:100px"></div>
+
+        <form class="Form">
+            <input class="Form__control" type="text" name="">
+            <textarea class="Form__control"></textarea>
+            <input class="Button" type="button" name="" value="Submit">
+        </form>
+    </div>
+
+    <script src="dist/iStyler.js"></script>
+    <script>
+        var colorSheets = [
+            {
+                color: "#ff8400",
+                title: "Switch to Default",
+                href: "./css/color-default.css",
+                group: "Color Scheme",
+                callback: function(btn, obj) {
+                    document.body.classList.toggle("body-boxed");
+                }
+            },
+            {
+                color: "#ff463a",
+                title: "Switch to Red",
+                href: "./css/color-red.css",
+                group: "Layout"
+            },
+            {
+                color: "#4bda28",
+                title: "Switch to Green",
+                href: "./css/color-green.css",
+                group: "Navbar"
+            },
+            {
+                color: "#4650dc",
+                title: "Switch to Blue",
+                href: "./css/color-blue.css",
+                group: "Layout"
+            },
+            {
+                color: "#f41c54",
+                title: "Switch to Magenta",
+                href: "./css/color-magenta.css",
+                group: "Navbar"
+            }
+        ];
+
+        ColorSwitcher.init(colorSheets);
+    </script>
+</body>
+</html>
