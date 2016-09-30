@@ -1,139 +1,150 @@
 "use strict";
 
-var ColorSwitcher = (function() {
-    
-    function generateSwitch(colorSheet, index) {
-        var colorSwitch = document.createElement("button");
+var iStyler = (function() {
 
-        colorSwitch.classList.add("iStyler__switch")
-        colorSwitch.title = colorSheet.title;
-        colorSwitch.dataset.index = index;
-        colorSwitch.style.backgroundColor = colorSheet.color;
+    function getType(val) {
+        return Object.prototype.toString.call(val).slice(8,-1).toLowerCase();
+    }
+    
+    function getSwitch(stylerObj, stylerObjIndex) {
+        var stylerSwitch = document.createElement("button");
+
+        stylerSwitch.classList.add("iStyler__switch")
+        stylerSwitch.title = stylerObj.title;
+        stylerSwitch.dataset.index = stylerObjIndex;
+        stylerSwitch.style.backgroundColor = stylerObj.color;
         
-        return colorSwitch;
+        return stylerSwitch;
     }
 
-    function initColorSwitcher(colorSheets) {
-        var tempCon, groupedSheets, colorSwitcher, controlBtn, colorSwitchs, linkHolderHtml, linkHolder;
+    function getGroups(stylerGroupedObjs) {
+        var stylerGroups, stylerGroupName, stylerGroup, stylerGroupHeading, stylerGroupClass;
 
-        if (Object.prototype.toString.call(colorSheets) !== "[object Array]") {
+        stylerGroups = document.createElement("div");
+        stylerGroups.classList.add("iStyler__groups");
+
+        for (stylerGroupName in stylerGroupedObjs) {
+            stylerGroup = document.createElement("div");
+            stylerGroupHeading = document.createElement("h3");
+            stylerGroupHeading.textContent = stylerGroupName;
+            stylerGroupHeading.classList.add("iStyler__group-title");
+            stylerGroupClass = stylerGroupName.toLowerCase().replace(" ", "-");
+            stylerGroup.className = "iStyler__group iStyler__group-" + stylerGroupClass;
+
+            stylerGroup.appendChild(stylerGroupHeading);
+            stylerGroup.appendChild(stylerGroupedObjs[stylerGroupName]);
+            stylerGroups.appendChild(stylerGroup);
+        }
+
+        return stylerGroups;
+    }
+
+    function initStyler(stylerArrayOfObjs) {
+        var tempContainer, stylerGroupedObjs, stylerContainer, stylerControlBtn, stylerGroups, stylerLinkHtml, stylerLinkRef;
+
+        if ("array" !== getType(stylerArrayOfObjs)) {
             return;
         }
 
-        groupedSheets = {};
+        stylerGroupedObjs = {};
 
-        tempCon = document.createDocumentFragment();
+        tempContainer = document.createDocumentFragment();
         
-        colorSwitcher = document.createElement("div");
-        colorSwitcher.classList.add("iStyler");
+        stylerContainer = document.createElement("div");
+        stylerContainer.classList.add("iStyler");
 
-        controlBtn = document.createElement("button");
-        controlBtn.classList.add("iStyler__control");
+        stylerControlBtn = document.createElement("button");
+        stylerControlBtn.classList.add("iStyler__control");
 
-        colorSwitchs = document.createElement("div");
-        colorSwitchs.classList.add("iStyler__groups");
+        stylerLinkHtml = document.createElement("link");
+        stylerLinkHtml.rel = "stylesheet";
+        stylerLinkHtml.id = "iStylerLinkRef";
+        document.head.appendChild(stylerLinkHtml);
 
-        linkHolderHtml = document.createElement("link");
-        linkHolderHtml.rel = "stylesheet";
-        linkHolderHtml.id = "iStylerLinkHolder";
-        document.head.appendChild(linkHolderHtml);
-
-        linkHolder = document.getElementById("iStylerLinkHolder");
+        stylerLinkRef = document.getElementById("iStylerLinkRef");
 
         // var colorSwitch;
 
-        // if (colorSheet.color && colorSheet.title && colorSheet.href) {
+        // if (stylerObj.color && stylerObj.title && stylerObj.href) {
         //     colorSwitch = document.createElement("button");
 
         //     colorSwitch.classList.add("iStyler__switch")
-        //     colorSwitch.title = colorSheet.title;
+        //     colorSwitch.title = stylerObj.title;
         //     colorSwitch.dataset.index = index;
-        //     colorSwitch.style.backgroundColor = colorSheet.color;
+        //     colorSwitch.style.backgroundColor = stylerObj.color;
             
-        //     colorSwitchs.appendChild(colorSwitch);
+        //     stylerGroups.appendChild(colorSwitch);
         // }
         
-        // colorSheets.forEach(function(colorSheet, index) {            
-        //     if ((colorSheet.color || colorSheet.thumbnail) && colorSheet.title && colorSheet.href) {
-        //         var group = colorSheet.group || "Color Scheme";
+        // stylerArrayOfObjs.forEach(function(stylerObj, index) {            
+        //     if ((stylerObj.color || stylerObj.thumbnail) && stylerObj.title && stylerObj.href) {
+        //         var group = stylerObj.group || "Color Scheme";
 
-        //         colorSheet.group = group;
+        //         stylerObj.group = group;
 
-        //         if (!groupedSheets[group]) {
-        //             groupedSheets[group] = [generateSwitch(colorSheet, index)];
+        //         if (!stylerGroupedObjs[group]) {
+        //             stylerGroupedObjs[group] = [getSwitch(stylerObj, index)];
         //         } else {
-        //             groupedSheets[group].push(generateSwitch(colorSheet, index));
+        //             stylerGroupedObjs[group].push(getSwitch(stylerObj, index));
         //         }
         //     }
         // });
         
-        colorSheets.forEach(function(colorSheet, index) {            
-            if ((colorSheet.color || colorSheet.thumbnail) && colorSheet.title && colorSheet.href) {
-                var group = colorSheet.group || "Color Scheme";
+        stylerArrayOfObjs.forEach(function(stylerObj, stylerObjIndex) {            
+            if ((stylerObj.color || stylerObj.thumbnail) && stylerObj.title && stylerObj.href) {
+                var group;
 
-                colorSheet.group = group;
+                group = stylerObj.group || "Color Scheme";
+                stylerObj.group = group;
 
-                if (!groupedSheets[group]) {
-                    groupedSheets[group] = document.createDocumentFragment();
-                    groupedSheets[group].appendChild(generateSwitch(colorSheet, index));
+                if (!stylerGroupedObjs[group]) {
+                    stylerGroupedObjs[group] = document.createDocumentFragment();
+                    stylerGroupedObjs[group].appendChild(getSwitch(stylerObj, stylerObjIndex));
+                    // console.log(getSwitch(stylerObj, stylerObjIndex));
                 } else {
-                    groupedSheets[group].appendChild(generateSwitch(colorSheet, index));
-                    // groupedSheets[group].push(generateSwitch(colorSheet, index));
+                    stylerGroupedObjs[group].appendChild(getSwitch(stylerObj, stylerObjIndex));
+                    // console.log(getSwitch(stylerObj, stylerObjIndex));
                 }
             }
         });
 
-        // console.log(groupedSheets);
+        stylerGroups = getGroups(stylerGroupedObjs);
 
-        for (var gs in groupedSheets) {
-            var div = document.createElement("div");
-            var heading = document.createElement("h3");
-            heading.classList.add("iStyler__group-title");
-            heading.textContent = gs;
-            div.appendChild(heading);
-            div.classList.add("iStyler__"+gs.toLowerCase().replace(" ", "-"));
+        // console.log(stylerGroups);
 
-            div.appendChild(groupedSheets[gs]);
+        
 
-            // groupedSheets[gs].forEach(function(iStylerSwitch) {
-            //     div.appendChild(iStylerSwitch);
-            // });
-            colorSwitchs.appendChild(div);
-        }
-        // console.log(colorSwitchs);
-        // colorSwitcher.appendChild(colorSwitchs);
+        // console.log(stylerGroups);
+        // stylerContainer.appendChild(stylerGroups);
 
-        // colorSwitchs.addEventListener("click", function(event) {
-        //     var index;
+        stylerGroups.addEventListener("click", function(event) {
+            var index;
 
-        //     if (event.target.nodeName !== "BUTTON") {
-        //         return;
-        //     }
+            if (event.target.nodeName !== "BUTTON") {
+                return;
+            }
 
-        //     index = event.target.dataset.index;
-        //     linkHolder.href = colorSheets[index].href;
+            index = event.target.dataset.index;
+            stylerLinkRef.href = stylerArrayOfObjs[index].href;
 
-        //     return false;
-        // });
+            return false;
+        });
 
-        controlBtn.addEventListener("click", function(event) {
+        stylerControlBtn.addEventListener("click", function(event) {
             event.target.parentElement.classList.toggle("iStyler--open");
 
             return false;
         });
 
-        colorSwitcher.addEventListener("blur", function() {
-            // this.classList.toggle("iStyler--open");
-            console.log("workig");
-        });
-
-        colorSwitcher.appendChild(controlBtn);
-        colorSwitcher.appendChild(colorSwitchs);
-        tempCon.appendChild(colorSwitcher);
-        document.body.appendChild(tempCon);
+        stylerContainer.appendChild(stylerControlBtn);
+        stylerContainer.appendChild(stylerGroups);
+        tempContainer.appendChild(stylerContainer);
+        document.body.appendChild(tempContainer);
     }
 
+
+
     return {
-        init: initColorSwitcher
+        init: initStyler
     };
 })();
