@@ -17,6 +17,12 @@ var iStyler = (function() {
         return stylerSwitch;
     }
 
+    function getSiblingSwitches(elem) {
+        return Array.prototype.filter.call(elem.parentElement.children, function(child) {
+            return (child.nodeName === "BUTTON" && elem !== child);
+        });
+    }
+
     function getGroups(stylerGroupedObjs) {
         var stylerGroups, stylerGroupName, stylerGroup, stylerGroupHeading, stylerGroupClass;
 
@@ -77,7 +83,7 @@ var iStyler = (function() {
         // }
         
         // stylerArrayOfObjs.forEach(function(stylerObj, index) {            
-        //     if ((stylerObj.color || stylerObj.thumbnail) && stylerObj.title && stylerObj.href) {
+        //     if ((stylerObj.color || stylerObj.thumb) && stylerObj.title && stylerObj.href) {
         //         var group = stylerObj.group || "Color Scheme";
 
         //         stylerObj.group = group;
@@ -91,7 +97,7 @@ var iStyler = (function() {
         // });
         
         stylerArrayOfObjs.forEach(function(stylerObj, stylerObjIndex) {            
-            if ((stylerObj.color || stylerObj.thumbnail) && stylerObj.title && stylerObj.href) {
+            if ((stylerObj.color || stylerObj.thumb) && stylerObj.title && stylerObj.src) {
                 var group;
 
                 group = stylerObj.group || "Color Scheme";
@@ -118,14 +124,28 @@ var iStyler = (function() {
         // stylerContainer.appendChild(stylerGroups);
 
         stylerGroups.addEventListener("click", function(event) {
-            var index;
+            var stylerSwitch, src, index;
 
-            if (event.target.nodeName !== "BUTTON") {
+            stylerSwitch = event.target;
+
+            if (stylerSwitch.nodeName !== "BUTTON") {
                 return;
             }
 
-            index = event.target.dataset.index;
-            stylerLinkRef.href = stylerArrayOfObjs[index].href;
+            index = stylerSwitch.dataset.index;
+            src = stylerArrayOfObjs[index].src;
+
+            if ("string" === getType(src)) {
+                stylerLinkRef.href = src;
+            } else if ("function" === getType(src)) {
+                src(event, stylerLinkRef);
+            }
+
+            stylerSwitch.classList.add("iStyler__switch--active");
+            
+            getSiblingSwitches(stylerSwitch).forEach(function(siblingSwitch) {
+                siblingSwitch.classList.remove("iStyler__switch--active");
+            });
 
             return false;
         });

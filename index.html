@@ -39,46 +39,45 @@
             {
                 color: "#ff8400",
                 title: "Switch to Default",
-                href: "./css/color-default.css",
-                group: "Color Scheme",
-                callback: function(btn, obj) {
-                    document.body.classList.toggle("body-boxed");
-                }
+                src: "./css/color-default.css",
+                group: "Color Scheme"
             },
             {
                 color: "#ff463a",
                 title: "Switch to Red",
-                href: "./css/color-red.css",
+                src: "./css/color-red.css",
                 group: "Layout"
             },
             {
                 color: "#4bda28",
                 title: "Switch to Green",
-                href: "./css/color-green.css",
+                src: "./css/color-green.css",
                 group: "Navbar"
             },
             {
                 color: "#4650dc",
                 title: "Switch to Blue",
-                href: "./css/color-blue.css",
+                src: "./css/color-blue.css",
                 group: "Layout"
             },
             {
                 color: "#f41c54",
                 title: "Switch to Magenta",
-                href: "./css/color-magenta.css",
+                src: "./css/color-magenta.css",
                 group: "Navbar"
             },
             {
                 color: "tomato",
                 title: "Switch to Magenta",
-                href: "./css/color-magenta.css",
+                src: "./css/color-magenta.css",
                 group: "Navbar"
             },
             {
                 color: "purple",
                 title: "Switch to Magenta",
-                href: "./css/color-magenta.css",
+                src: function(e, link) {
+                    window.open("http://google.com/", "_blank");
+                },
                 group: "Layout"
             },
         ];
