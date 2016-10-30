@@ -35,7 +35,7 @@
 
     <script src="dist/iStyler.js"></script>
     <script>
-        var colorSheets = [
+        var stylerArray = [
             {
                 color: "#ff8400",
                 title: "Switch to Default",
@@ -52,7 +52,7 @@
                 color: "#4bda28",
                 title: "Switch to Green",
                 src: "./css/color-green.css",
-                group: "Navbar"
+                group: "Pattern"
             },
             {
                 color: "#4650dc",
@@ -64,7 +64,7 @@
                 color: "#f41c54",
                 title: "Switch to Magenta",
                 src: "./css/color-magenta.css",
-                group: "Navbar"
+                group: "Pattern"
             },
             {
                 color: "tomato",
@@ -82,7 +82,14 @@
             },
         ];
 
-        iStyler.init(colorSheets);
+        var config = {
+            buyable: true,
+            buyBtnLink: "purchase link",
+            buyBtnPosition: "bottom", // default top
+            buyBtnLabel: "Buy Now" 
+        }
+
+        iStyler.init(stylerArray, config);
     </script>
 </body>
 </html>

@@ -86,13 +86,13 @@
 }
 
 .iStyler__switch {
-    /* position: relative; */
+    position: relative;
     margin: 5px;
     border-radius: 3px;
 }
 
 .iStyler__switch:before {
-    /* content: ""; */
+    content: "";
     position: absolute;
     top: 0;
     left: 0;

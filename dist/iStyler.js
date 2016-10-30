@@ -144,7 +144,9 @@ var iStyler = (function() {
             stylerSwitch.classList.add("iStyler__switch--active");
             
             getSiblingSwitches(stylerSwitch).forEach(function(siblingSwitch) {
-                siblingSwitch.classList.remove("iStyler__switch--active");
+                if (siblingSwitch.classList.contains("iStyler__switch--active")) {
+                    siblingSwitch.classList.remove("iStyler__switch--active");
+                }
             });
 
             return false;
@@ -155,6 +157,18 @@ var iStyler = (function() {
 
             return false;
         });
+
+        var buyBtn = document.createElement("a");
+        buyBtn.setAttribute("href", "http://fb.me");
+        buyBtn.setAttribute("target", "_blank");
+        buyBtn.setAttribute("rel", "noopener");
+        buyBtn.textContent = "Buy Now";
+
+        console.log(buyBtn);
+
+        stylerContainer.insertAdjacentElement("afterbegin", buyBtn);
+
+
 
         stylerContainer.appendChild(stylerControlBtn);
         stylerContainer.appendChild(stylerGroups);
